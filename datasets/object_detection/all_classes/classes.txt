@@ -1,0 +1,15 @@
+Bus
+Truck
+Car
+Van
+Taxi
+Tree
+Backpack
+Handbag
+Shorts
+Shirt
+Glasses
+Sunglasses
+Boot
+Sandal
+Traffic sign
