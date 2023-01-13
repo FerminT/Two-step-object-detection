@@ -1,0 +1,16 @@
+nc: 15
+names: ['Bus', 'Truck', 'Car', 'Van', 'Taxi', 'Tree', 'Backpack', 'Handbag', 'Shorts', 'Shirt', 'Glasses', 'Sunglasses', 'Boot', 'Sandal', 'Traffic sign']
+merged_names: ['Bus', 'Truck', 'CarTaxi', 'Van', 'Tree', 'BackpackHandbag', 'Shorts', 'Shirt', 'SunglassesGlasses', 'Boot', 'Sandal', 'Traffic sign']
+mapping:
+  'Bus': 0
+  'Truck': 1
+  'CarTaxi': 2
+  'Van': 3
+  'Tree': 5
+  'BackpackHandbag': 6
+  'Shorts': 8
+  'Shirt': 9
+  'SunglassesGlasses': 10
+  'Boot': 12
+  'Sandal': 13
+  'Traffic sign': 14

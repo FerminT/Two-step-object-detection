@@ -1,0 +1,33 @@
+# background filter first to improve efficiency
+id:
+  model: bckg_filter.tflite
+  class_mapping:
+    0: -1
+    1: id
+  input_size: [224, 224]
+  batch_size: 32
+  threshold: 0.85
+2:
+  model: car_taxi.tflite
+  class_mapping:
+    0: 2
+    1: 4
+  input_size: [224, 224]
+  batch_size: 32
+  threshold: 0.3
+6:
+  model: backpack_handbag.tflite
+  class_mapping:
+    0: 6
+    1: 7
+  input_size: [224, 224]
+  batch_size: 32
+  threshold: 0.3
+10:
+  model: glasses_sunglasses.tflite
+  class_mapping:
+    0: 10
+    1: 11
+  input_size: [224, 224]
+  batch_size: 32
+  threshold: 0.3
