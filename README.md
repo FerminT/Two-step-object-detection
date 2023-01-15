@@ -54,3 +54,6 @@ Such a scheme usually works in settings where there is not much variation in the
 
 ### How to run it
 The ```detect.py``` and ```test.py``` scripts can compute the full pipeline by adding the flag ```--two-step```. In the testing case, the weights specified need to belonged to YOLOv7's instance trained on the merged classes dataset, but the data file has to belong to that of the original dataset.
+
+## Acknowledgments
+This project has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 777822.
