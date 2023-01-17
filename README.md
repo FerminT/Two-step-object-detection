@@ -1,6 +1,6 @@
 # Two-step Object Detection
 ## About
-This project concerns the *addition of a second-stage image classifier* for certain classes of objects in an *object detection pipeline*. The main idea is to merge those objects that are visually similar between each other, as a unique class, and have a pre-trained image classification model make the required distinction.
+This project is about the *addition of a second-stage image classifier* for certain classes of objects in an *object detection pipeline*. The main idea is to merge those objects that are visually similar between each other, as a unique class, and have a pre-trained image classification model perform the required distinction.
 
 The reasoning behind this is that *visually similar objects can pose a challenge for the object detection algorithm* (in extreme cases, causing the loss function to get stuck), especially when a large number of classes are to be detected or there is insufficient data. By relaying the task of making the correct distinction to an image classification model, which requires less training data, precision and scalability can potentially be gained at the cost of an overhead in inference time.
 
@@ -38,7 +38,7 @@ The *keys* correspond to what predicted class ID is to be sent to the specified 
 ### Background filter
 In a similar fashion, a *background filter* can be added to the pipeline, as the folks at [Tower Scout](https://github.com/TowerScout/TowerScout) have done. This consists of an image classification model trained to differentiate between the background (cropped portions of images, consisting of the same size as the objects, but with no object to be detected in them) and any object:
 ![bckg-diagram](pictures/bckg%20filter%20diagram%20bw.png#gh-dark-mode-only)
-![bckg-diagram](pictures/bckg%20filter%20diagram.png#gh-light-mode-only)}
+![bckg-diagram](pictures/bckg%20filter%20diagram.png#gh-light-mode-only)
 
 Such a scheme usually works in settings where there is not much variation in the background, making it easier to discern. In order to allow for *all* predictions to go through this model, the ```id``` wildcard is used, and ```-1``` stands for invalid class (i.e., it is a false positive):
 ```yml
@@ -53,7 +53,19 @@ Such a scheme usually works in settings where there is not much variation in the
 ```
 
 ### How to run it
-The ```detect.py``` and ```test.py``` scripts can compute the full pipeline by adding the flag ```--two-step```. In the testing case, the weights specified need to belonged to YOLOv7's instance trained on the merged classes dataset, but the data file has to belong to that of the original dataset.
+The ```detect.py``` and ```test.py``` scripts can compute the full pipeline by adding the flag ```--two-step```. The weights to be used are those of YOLOv7's trained on the merged classes dataset. In the testing case, the data file has to belong to that of the original dataset.
+
+## Example
+To give a more concrete idea of how this pans out to a real case scenario, the classes mentioned in the diagram were downloaded from [Open Images V6](https://storage.googleapis.com/openimages/web/factsfigures_v6.html) and YOLOv7-tiny was trained on them as a baseline. The data distribution in the training set is as follows:
+
+![train-stats](pictures/train_stats%20bw.png#gh-dark-mode-only)
+![train-stats](pictures/train_stats.png#gh-light-mode-only)
+
+By performing the steps depicted above, we can compare the two versions of the pipeline (with and without the second-stage) in the testing set:
+
+![confusion-matrix](pictures/confusion_matrix.png)
+
+An overall bump in precision, alongside a reduction in background false negatives (increase in recall) can be observed, mainly due to the fact that the object detection model now has to detect fewer classes. The merged classes that benefitted the most from the addition of the second-stage were *Backpack* and *Handbag*, whereas *Glasses* and *Sunglasses* remained nearly unchanged. This supports the fact that this method is likely to be most appropiate for similar objects whose data is scarce.
 
 ## Acknowledgments
-This project has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 777822.
+This project has received funding from the European Union's Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 777822.
